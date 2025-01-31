@@ -39,8 +39,10 @@ rl.on('close', () => {
   const anchorElements = document.querySelectorAll('a');
   //  - extract the value of the `href` attribute for each anchor element.
   anchorElements.forEach((anchor) => {
-    const newUrl = new URL(anchor.href, baseURL).toString();
-    console.log(newUrl);
+    if (anchor.href) {
+      const newUrl = new URL(anchor.href, baseURL).toString();
+      console.log(newUrl);
+    }
   });
   // 5. Print each absolute URL to the console, one per line.
 });

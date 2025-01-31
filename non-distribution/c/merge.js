@@ -113,10 +113,18 @@ const printMerged = (err, data) => {
     const localIndexUrl = local[key].url;
     const localIndexFreq = local[key].freq;
     if (key in global) {
-      // - Append the local index entry to the array of entries in the global index.
-      // - Sort the array by `freq` in descending order.
-      global[key].push({'url': localIndexUrl, 'freq': localIndexFreq});
-      global[key].sort(compare);
+      // If this entry already exists
+      const existingEntryIndex = global[key].findIndex((entry) => entry.url === localIndexUrl);
+
+      if (existingEntryIndex !== -1) {
+        // If found, overwrite the entry with the new frequency
+        global[key][existingEntryIndex].freq = localIndexFreq;
+      } else {
+        // - Append the local index entry to the array of entries in the global index.
+        // - Sort the array by `freq` in descending order.
+        global[key].push({'url': localIndexUrl, 'freq': localIndexFreq});
+        global[key].sort(compare);
+      }
     } else {
       // - Add it as a new entry with the local index's data.
       const urlFreqArray = [];
