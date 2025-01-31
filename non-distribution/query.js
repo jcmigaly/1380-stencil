@@ -28,9 +28,29 @@ For example, `execSync(`echo "${input}" | ./c/process.sh`, {encoding: 'utf-8'});
 const fs = require('fs');
 const {execSync} = require('child_process');
 const path = require('path');
+const readline = require('readline');
 
 
 function query(indexFile, args) {
+  // Normalize and remove stopwords.
+  const tokens = execSync(`echo "${args}" | ./c/process.sh | ./c/stem.js | tr "\r\n" "  "`, {encoding: 'utf-8'})
+      .split(' ')
+      .map((token) => token.trim())
+      .filter(Boolean);
+
+  const indexPath = path.resolve(indexFile); // Ensure absolute path
+  const fileStream = fs.createReadStream(indexPath);
+  const rl = readline.createInterface({
+    input: fileStream,
+  });
+
+  rl.on('line', (line) => {
+    const lineWords = line.split(' '); // Split the line into words
+    const match = tokens.every((token) => lineWords.includes(token)); // Check if all tokens are in the line
+    if (match) {
+      console.log(`${line}`);
+    }
+  });
 }
 
 const args = process.argv.slice(2); // Get command-line arguments
