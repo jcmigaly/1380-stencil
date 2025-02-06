@@ -59,3 +59,12 @@ test('(1 pts) student test', () => {
   const d = util.deserialize(s);
   expect(undef).toEqual(d);
 });
+
+test('(1 pts) student test', () => {
+  const fn = (a, b) => a + b;
+  const serialized = util.serialize(fn);
+  const deserialized = util.deserialize(serialized);
+  console.log(deserialized)
+  expect(typeof deserialized).toBe('function');
+  expect(deserialized(42, 1)).toBe(43);
+});

@@ -6,7 +6,7 @@ test('(3 pts) (scenario) 40 bytes object', () => {
           Come up with a JavaScript object, which when serialized,
           will result in a string that is 40 bytes in size.
       */
-  const object = {hi: '1234567891234567891231231231231'};
+  const object = (a) => a + 1;
 
   const serialized = util.serialize(object);
   expect(serialized.length).toBe(40);
@@ -54,7 +54,7 @@ test('(3 pts) (scenario) object with all supported data types', () => {
     number: 1,
     string: 'hi',
     undefined: undefined,
-  };
+  }
 
   const setTypes = new Set();
   for (const k in object) {
@@ -88,7 +88,7 @@ test('(3 pts) (scenario) object with all supported data types', () => {
 test('(3 pts) (scenario) malformed serialized string', () => {
 /* Come up with a string that is not a valid serialized object. */
 
-  const malformedSerializedString = '{type":"object","value":{"a":"{\\"type\\":\\"string\\",\\"value\\":\\"jcarb\\"}","b":"{\\"type\\":\\"number\\",\\"value:\\"1\\"}","c":"{\\"type\\":\\"function\\",\\"value\\":\\"(a, b) => a + b\\"}"}}';
+  const malformedSerializedString = '{""""""""type":"object","value":{"a":"{\\"type\\":\\"string\\",\\"value\\":\\"jcarb\\"}","b":"{\\"type\\":\\"number\\",\\"value:\\"1\\"}","c":"{\\"type\\":\\"function\\",\\"value\\":\\"(a, b) => a + b\\"}"}}';
 
   expect(() => {
     util.deserialize(malformedSerializedString);

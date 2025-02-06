@@ -53,7 +53,7 @@ function serializeFunction(object) {
   // const bodyEnd = stringFunc.lastIndexOf('}');
   // const bodyString = stringFunc.slice(bodyStart, bodyEnd).trim();
 
-  const funcObj = {type: 'function', parameters: params, body: bodyString};
+  const funcObj = {type: 'function', parameters: params, body: 'return ' + bodyString};
   const transformedObject = {};
   transformedObject['__meta__specialType__'] = funcObj;
   return transformedObject;
@@ -176,15 +176,16 @@ function deserializeHelper(object) {
 }
 
 function deserialize(string) {
-  let object = 'bad request';
+  let object = ''
   try {
     object = JSON.parse(string);
   } catch (error) {
   } finally {
-    const deserializedObj = deserializeHelper(object);
-    if (object === 'bad request') {
+    if (object === '') {
       throw new SyntaxError('Invalid input');
     }
+
+    const deserializedObj = deserializeHelper(object);
     return deserializedObj;
   }
 }
