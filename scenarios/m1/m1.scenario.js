@@ -49,9 +49,7 @@ test('(3 pts) (scenario) object with all supported data types', () => {
       child: 'child',
     },
     boolean: false,
-    func: (a, b) => {
-      a + b;
-    },
+    func: (a, b) => a + b,
     null: null,
     number: 1,
     string: 'hi',

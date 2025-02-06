@@ -33,10 +33,25 @@ function serializeFunction(object) {
   // Split the parameters by commas and remove extra whitespace
   const params = paramsString ? paramsString.split(',').map((param) => param.trim()) : [];
 
+  // Determine if function uses braces `{}` or not
+  const arrowIndex = stringFunc.indexOf('=>');
+  const bodyStart = stringFunc.indexOf('{');
+  
+  let bodyString = '';
+
+  if (bodyStart !== -1) {
+    // Regular function body with {}
+    const bodyEnd = stringFunc.lastIndexOf('}');
+    bodyString = stringFunc.slice(bodyStart + 1, bodyEnd).trim();
+  } else if (arrowIndex !== -1) {
+    // Arrow function without braces
+    bodyString = stringFunc.slice(arrowIndex + 2).trim();
+  }
+
   // Find the first occurence of { and }
-  const bodyStart = stringFunc.indexOf('{') + 1;
-  const bodyEnd = stringFunc.lastIndexOf('}');
-  const bodyString = stringFunc.slice(bodyStart, bodyEnd).trim();
+  // const bodyStart = stringFunc.indexOf('{') + 1;
+  // const bodyEnd = stringFunc.lastIndexOf('}');
+  // const bodyString = stringFunc.slice(bodyStart, bodyEnd).trim();
 
   const funcObj = {type: 'function', parameters: params, body: bodyString};
   const transformedObject = {};
