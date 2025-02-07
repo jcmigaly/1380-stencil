@@ -33,11 +33,11 @@ const object = {
     string: 'hi',
     undefined: undefined,
   };
-const serializedFunc = serialize(testFunc);
+const serializedFunc = serialize(base);
 console.log(serializedFunc)
 
 // Test Serialization Latency
-console.log("Serialization Latency:", measureLatency(serialize, testFunc));
+console.log("Serialization Latency:", measureLatency(serialize, base));
 
 // Test Deserialization Latency
 console.log("Deserialization Latency:", measureLatency(deserialize, JSON.stringify(serializedFunc)));
@@ -61,8 +61,8 @@ console.log("Deserialization Latency:", measureLatency(deserialize, JSON.stringi
 // Deserialization Latency: { average: 0.0009149764200788923 }
 
 // Test structures
-// Serialization Latency: { average: 0.0013656093999487348 }
-// Deserialization Latency: { average: 0.0009841037800896446 }
+// Serialization Latency: { average: 0.0030407982302980965 }
+// Deserialization Latency: { average: 0.0009382592400617432 }
 
 // Complex recursive structures
 // Serialization Latency: { average: 0.00945042749014101 }
