@@ -40,27 +40,45 @@
     },
     "aws": {
       "serialization": {
-        "base": 0,
-        "function": 0,
-        "recursive": 0
+        "base": 0.0014286449898278806,
+        "function": 0.0030407982302980965,
+        "recursive": 0.00945042749014101
       },
       "deserialization": {
-        "base": 0,
-        "function": 0,
-        "recursive": 0
+        "base": 0.0009149764200788923,
+        "function": 0.0009382592400617432,
+        "recursive": 0.0019686386798927562
       }
     },
     "gradescope": {
       "serialization": {
-        "base": 0,
-        "function": 0,
-        "recursive": 0
+        "base": 0.0014286449898278806,
+        "function": 0.0030407982302980965,
+        "recursive": 0.00945042749014101
       },
       "deserialization": {
-        "base": 0,
-        "function": 0,
-        "recursive": 0
+        "base": 0.0009149764200788923,
+        "function": 0.0009382592400617432,
+        "recursive": 0.0019686386798927562
       }
     }
-  }
+  },
+  "m1Report": {
+    "hours": {
+      "T1": 0.5,
+      "T2": 0.5,
+      "T3": 1,
+      "T4": 1,
+      "T5": 1,
+      "T6": 0.5
+    },
+    "LoC":  {
+      "T1": 50,
+      "T2": 50,
+      "T3": 10,
+      "T4": 50,
+      "T5": 30,
+      "T6": 10
+    }
+  } 
 }

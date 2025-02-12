@@ -86,9 +86,7 @@ distribution.all.comm.send(['sid'], {node: node, service: 'status', method: 'get
 
 > Summarize your implementation, including key challenges you encountered. Remember to update the `report` section of the `package.json` file with the total number of hours it took you to complete each task of M1 (`hours`) and the lines of code per task.
 
-
-My implementation comprises `<number>` software components, totaling `<number>` lines of code. Key challenges included `<1, 2, 3 + how you solved them>`.
-
+My implementation consists of two software components totaling 195 lines of code. Key challenges included handling special types like undefined, null, and functions, which I solved by implementing custom transformations. Ensuring correct serialization of nested objects required a depth-first traversal while modifying properties in place. I also tested performance using multiple iterations to measure execution time accurately.
 
 ## Correctness & Performance Characterization
 
@@ -96,7 +94,7 @@ My implementation comprises `<number>` software components, totaling `<number>` 
 > Describe how you characterized the correctness and performance of your implementation
 
 
-*Correctness*: I wrote `<number>` tests; these tests take `<time>` to execute. This includes objects with `<certain kinds of features>`.
+*Correctness*: I wrote 12 tests, which execute in 0.44 seconds. These tests ensure correctness across a variety of object types, including base type objects, function objects with and without curly braces, and nested objects. By covering these different structures, the tests help verify that the implementation behaves as expected across multiple use cases.
 
 
 *Performance*: The latency of various subsystems is described in the `"latency"` portion of package.json. The characteristics of my development machines are summarized in the `"dev"` portion of package.json.
