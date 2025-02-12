@@ -1,3 +1,4 @@
+const util = require('@brown-ds/distribution/distribution/util/util.js');
 const distribution = require('../../config.js');
 
 test('(2 pts) (scenario) simple callback practice', () => {
@@ -15,6 +16,10 @@ test('(2 pts) (scenario) simple callback practice', () => {
 
   // ...
 
+  add(2, 1, storeResults)
+  add(2, 3, storeResults)
+  add(2, 5, storeResults)
+
   expect(results).toEqual([3, 5, 7]);
 });
 
@@ -23,26 +28,51 @@ test('(2 pts) (scenario) collect errors and successful results', (done) => {
           Call each delivery service in a loop, and collect the sucessful results and
           failures in an array.
       */
-
+  
   // Sample service
   const appleDeliveryService = (callback) => {
     // ...
+    let value = 'good apples'
+    if (value.includes('good')) {
+      return callback(null, value)
+    } 
+    callback(value)
   };
 
   const pineappleDeliveryService = (callback) => {
     // ...
+    let value = 'bad pineapples'
+    if (value.includes('good')) {
+      return callback(null, value)
+    } 
+    callback(new Error(value))
   };
 
   const bananaDeliveryService = (callback) => {
     // ...
+    let value = 'good bananas'
+    if (value.includes('good')) {
+      return callback(null, value)
+    } 
+    callback(value)
   };
 
   const peachDeliveryService = (callback) => {
     // ...
+    let value = 'good peaches'
+    if (value.includes('good')) {
+      return callback(null, value)
+    } 
+    callback(value)
   };
 
   const mangoDeliveryService = (callback) => {
     // ...
+    let value = 'bad mangoes'
+    if (value.includes('good')) {
+      return callback(null, value)
+    } 
+    callback(new Error(value))
   };
 
   const services = [
@@ -51,6 +81,9 @@ test('(2 pts) (scenario) collect errors and successful results', (done) => {
   ];
 
   const doneAndAssert = (es, vs) => {
+    console.log(`Errors: ${es}`)
+    console.log(`Results: ${vs}`)
+
     try {
       expect(vs.length).toBe(3);
       expect(vs).toContain('good apples');
@@ -95,7 +128,7 @@ test('(5 pts) (scenario) use rpc', (done) => {
 
   const node = {ip: '127.0.0.1', port: 9009};
 
-  let addOneRPC = '?';
+  let addOneRPC = util.wire.createRPC(util.wire.toAsync(addOne));
 
   const rpcService = {
     addOne: addOneRPC,
@@ -109,7 +142,7 @@ test('(5 pts) (scenario) use rpc', (done) => {
           callback);
     }
 
-    // Spawn the remote node.
+    // Spawn the remote node. 
     distribution.local.status.spawn(node, (e, v) => {
       // Install the addOne service on the remote node with the name 'addOneService'.
       distribution.local.comm.send([rpcService, 'addOneService'],
