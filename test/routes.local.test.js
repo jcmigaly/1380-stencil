@@ -65,6 +65,7 @@ test('(6 pts) local.routes.put/get(echo)', (done) => {
 
   local.routes.put(echoService, 'echo', (e, v) => {
     local.routes.get('echo', (e, v) => {
+
       try {
         expect(e).toBeFalsy();
         expect(v.echo()).toBe('echo!');
