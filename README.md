@@ -98,3 +98,35 @@ My implementation consists of two software components totaling 195 lines of code
 
 
 *Performance*: The latency of various subsystems is described in the `"latency"` portion of package.json. The characteristics of my development machines are summarized in the `"dev"` portion of package.json.
+
+
+# M2: Actors and Remote Procedure Calls (RPC)
+
+## Summary
+
+> Summarize your implementation, including key challenges you encountered. Remember to update the `report` section of the `package.json` file with the total number of hours it took you to complete each task of M2 (`hours`) and the lines of code per task.
+
+
+My implementation comprises 4 major software components, totaling 130 lines of code. Key challenges included understanding the flow of the program, as this was my first real experience working will callbacks and not async/await. Alot of my time was spent trying to reason how would I pass things back to previous functions. Additionally, I found it a challenge to get my last scenario to run as the spawn() function was not completed. I imported spawn() from the solution code but kept getting the following error: Error: listen EADDRINUSE: address already in use 127.0.0.1:1234. I debugged heavily, went on EdStem to try kill all processes but to no avail. Given this, I was not able to calculate throughput and latency. 
+
+
+## Correctness & Performance Characterization
+
+> Describe how you characterized the correctness and performance of your implementation
+
+
+*Correctness*: I wrote 5 tests; these tests take 0.561s to execute.
+
+
+*Performance*: I characterized the performance of comm and RPC by sending 1000 service requests in a tight loop. Average throughput and latency is recorded in `package.json`.
+
+
+## Key Feature
+
+> How would you explain the implementation of `createRPC` to someone who has no background in computer science — i.e., with the minimum jargon possible?
+
+Imagine you have two friends, Max and Tommy. Max knows how to do math, like adding 2 + 2, but Tommy doesn’t. So Max tells Tommy, "Hey, if you ever need to add numbers, just ask me!"
+
+Now, whenever Tommy needs 2 + 2, he doesn’t try to figure it out himself. Instead, he writes a note, gives it to a messenger, and Max sends back the answer. Tommy doesn’t need to know how Max does the math—he just trusts that Max will get it right.
+
+That’s basically how createRPC works. One part of a program (Tommy) asks another part (Max) to do something remotely. Instead of passing paper notes, they send messages over a network.

@@ -1,4 +1,5 @@
 const util = require('@brown-ds/distribution/distribution/util/util.js');
+const solution = require('@brown-ds/distribution');
 const distribution = require('../../config.js');
 const status = require('@brown-ds/distribution/distribution/local/status.js');
 
@@ -136,14 +137,13 @@ test('(5 pts) (scenario) use rpc', (done) => {
   distribution.node.start((server) => {
     function cleanup(callback) {
       server.close();
-      distribution.local.comm.send([],
+      solution.distribution.local.comm.send([],
           {node: node, service: 'status', method: 'stop'},
           callback);
     }
 
     // Spawn the remote node. 
     status.spawn(node, (e, v) => {
-      console.log('I REALLY WANT INTERNSHIP')
       // Install the addOne service on the remote node with the name 'addOneService'.
       distribution.local.comm.send([rpcService, 'addOneService'],
           {node: node, service: 'routes', method: 'put'}, (e, v) => {

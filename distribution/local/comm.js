@@ -19,13 +19,9 @@ const { prototype } = require("events");
  * @return {void}
  */
 function send(message, remote, callback) {
-    console.log('message')
-    
-    console.log(message)
 
     // Serialize the message
     let serializedMessage = serialize(message)
-    console.log(serializedMessage)
 
     // Build path
     let path = '/local/' + remote.service + '/' + remote.method

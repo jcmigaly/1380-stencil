@@ -13,7 +13,6 @@ const id = distribution.util.id
 const config = distribution.node.config;
 
 test('(1 pts) student test', (done) => {
-  // Fill out this test case...
   // Test: status.get ...
 
   // NID
@@ -57,7 +56,6 @@ test('(1 pts) student test', (done) => {
 
 
 test('(1 pts) student test', (done) => {
-  // Fill out this test case...
   // Test: routes.put
 
   const newService = {};
@@ -114,7 +112,7 @@ test('(1 pts) student test', (done) => {
   })
 });
 
-// /* Test infrastructure */
+/* Test infrastructure */
 
 // let localServer = null;
 
