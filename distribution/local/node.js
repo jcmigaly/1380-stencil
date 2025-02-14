@@ -39,6 +39,11 @@ const start = function(callback) {
     const service = pathParts[1]
     const method = pathParts[2]
 
+    if (!(service in local)) {
+      res.end(serialize((new Error('Unsupported method'))))
+      return
+    }
+
     /*
 
       A common pattern in handling HTTP requests in Node.js is to have a
@@ -78,7 +83,7 @@ const start = function(callback) {
     // Use local routes service to get the service I need to call
     routes.get(service, (err, res) => {
       if (err) {
-        res.send(serialize(new Error(err)))
+        res.end(serialize(new Error(err)))
       }
       routeResult = res
     })
@@ -86,7 +91,8 @@ const start = function(callback) {
     routeResult[method](...deserializedBody, (e, r) => {
       if (e) {
         res.end(serialize(e))
-      }
+        return
+      } 
       res.end(serialize(r))
     })
     });

@@ -48,7 +48,12 @@ function send(message, remote, callback) {
     
         // Handle end of response
         res.on('end', () => {
-            callback(null, deserialize(data))
+            let trueData = deserialize(data)
+            if (trueData instanceof Error && trueData.message === 'Unsupported method') {
+                callback(trueData)
+                return
+            }
+            callback(null, trueData)
         })
     })
     
