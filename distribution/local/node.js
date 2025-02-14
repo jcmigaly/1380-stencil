@@ -1,7 +1,10 @@
 const http = require('http');
 const url = require('url');
 const log = require('../util/log');
-
+const { serialize, deserialize } = require('../util/serialization');
+const local = require('./local')
+const routes = require('./routes');
+const { read } = require('fs');
 
 /*
     The start function will be called to start your node.
@@ -14,7 +17,12 @@ const start = function(callback) {
   const server = http.createServer((req, res) => {
     /* Your server will be listening for PUT requests. */
 
+
     // Write some code...
+    if (req.method !== 'PUT') {
+      res.writeHead(405, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ error: 'Method Not Allowed' }));
+    }
 
 
     /*
@@ -24,7 +32,12 @@ const start = function(callback) {
 
 
     // Write some code...
+    // Parse the request URL
+    const parsedUrl = url.parse(req.url, true);
+    const pathParts = parsedUrl.pathname.split('/').filter(Boolean);
 
+    const service = pathParts[1]
+    const method = pathParts[2]
 
     /*
 
@@ -43,9 +56,10 @@ const start = function(callback) {
 
     // Write some code...
 
-    let body = [];
+    let body = '';
 
     req.on('data', (chunk) => {
+      body += chunk
     });
 
     req.on('end', () => {
@@ -57,8 +71,24 @@ const start = function(callback) {
       */
 
     // Write some code...
+    let deserializedBody = deserialize(body)
 
+    let routeResult = ''
 
+    // Use local routes service to get the service I need to call
+    routes.get(service, (err, res) => {
+      if (err) {
+        res.send(serialize(new Error(err)))
+      }
+      routeResult = res
+    })
+
+    routeResult[method](...deserializedBody, (e, r) => {
+      if (e) {
+        res.end(serialize(e))
+      }
+      res.end(serialize(r))
+    })
     });
   });
 
