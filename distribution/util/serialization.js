@@ -1,3 +1,5 @@
+const answer = require('@brown-ds/distribution/distribution/util/serialization');
+
 function isBaseType(object) {
   if (typeof object === 'string' ||
       typeof object === 'number' ||
@@ -113,8 +115,9 @@ function serializeHelper(object) {
 }
 
 function serialize(object) {
-  const transformedObject = serializeHelper(object);
-  return JSON.stringify(transformedObject);
+  return answer.serialize(object)
+  // const transformedObject = serializeHelper(object);
+  // return JSON.stringify(transformedObject);
 }
 
 function deserializeBaseCase(object) {
@@ -176,18 +179,19 @@ function deserializeHelper(object) {
 }
 
 function deserialize(string) {
-  let object = ''
-  try {
-    object = JSON.parse(string);
-  } catch (error) {
-  } finally {
-    if (object === '') {
-      throw new SyntaxError('Invalid input');
-    }
+  return answer.deserialize(string)
+  // let object = ''
+  // try {
+  //   object = JSON.parse(string);
+  // } catch (error) {
+  // } finally {
+  //   if (object === '') {
+  //     throw new SyntaxError('Invalid input');
+  //   }
 
-    const deserializedObj = deserializeHelper(object);
-    return deserializedObj;
-  }
+  //   const deserializedObj = deserializeHelper(object);
+  //   return deserializedObj;
+  // }
 }
 
 module.exports = {

@@ -77,6 +77,7 @@ const start = function(callback) {
 
     // Write some code...
     let deserializedBody = deserialize(body)
+    console.log('deserializedBody ', deserializedBody)
 
     let routeResult = ''
 
