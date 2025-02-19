@@ -5,6 +5,7 @@ groups.get = function(name, callback) {
 };
 
 groups.put = function(config, group, callback) {
+    
 };
 
 groups.del = function(name, callback) {
