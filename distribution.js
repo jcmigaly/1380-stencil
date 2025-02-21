@@ -62,6 +62,7 @@ for (const key in distribution.local) {
 /* Initialize distribution object */
 distribution['all'] = {};
 distribution['all'].status =
+    // First part returns function found in './distribution/all/status and the gid completes object and then returns actual callable object with methods
     require('./distribution/all/status')({gid: 'all'});
 distribution['all'].comm =
     require('./distribution/all/comm')({gid: 'all'});

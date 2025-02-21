@@ -5,6 +5,7 @@ const { serialize, deserialize } = require('../util/serialization');
 const local = require('./local')
 const routes = require('./routes');
 const { read } = require('fs');
+const path = require('path');
 
 /*
     The start function will be called to start your node.
@@ -36,6 +37,7 @@ const start = function(callback) {
     const parsedUrl = url.parse(req.url, true);
     const pathParts = parsedUrl.pathname.split('/').filter(Boolean);
 
+    const gid = pathParts[0]
     const service = pathParts[1]
     const method = pathParts[2]
 
@@ -77,17 +79,29 @@ const start = function(callback) {
 
     // Write some code...
     let deserializedBody = deserialize(body)
-    console.log('deserializedBody ', deserializedBody)
 
     let routeResult = ''
 
+    // build configuration object for routes
+    let routesConfig = {
+      'service': service,
+      'gid': gid
+    }
+
     // Use local routes service to get the service I need to call
-    routes.get(service, (err, res) => {
-      if (err) {
-        res.end(serialize(new Error(err)))
+    routes.get(routesConfig, (e, v) => {
+      if (e) {
+        routeResult = e
+      } else if (v) {
+        routeResult = v
+
       }
-      routeResult = res
     })
+
+    if (routeResult instanceof Error) {
+      res.end(serialize(routeResult))
+      return
+    }
 
     routeResult[method](...deserializedBody, (e, r) => {
       if (e) {

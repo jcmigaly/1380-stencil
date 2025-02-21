@@ -94,7 +94,7 @@ test('(1 pts) student test', (done) => {
   })
 });
 
-test('(1 pts) student test', (done) => {
+test('(1 pts) student test me', (done) => {
   // Test: comm.send
   const node = distribution.node.config;
 
@@ -112,7 +112,7 @@ test('(1 pts) student test', (done) => {
   })
 });
 
-/* Test infrastructure */
+// /* Test infrastructure */
 
 // let localServer = null;
 

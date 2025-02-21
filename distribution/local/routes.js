@@ -4,6 +4,7 @@
 const status = require('./status');
 /* Comm Service */
 const comm = require('./comm');
+const { local } = require("@brown-ds/distribution");
 
 /**
  * @param {string} configuration
@@ -16,16 +17,37 @@ function get(configuration, callback) {
     }
     global.moreStatus.counts += 1
 
-    if (configuration in services) {
-        try {
-            callback(null, services[configuration])
-            return
-        } catch (error) {
-            callback(new Error(error))
+    let gid = 'local'
+    let service = ''
+    if (typeof configuration === 'string') {
+        // service = configuration
+        if (configuration in services) {
+            try {
+                callback(null, services[configuration])
+                return
+            } catch (error) {
+                callback(new Error(error))
+                return
+            }
+        }
+        callback(new Error('Service not supported'))
+        return
+    } else if (typeof configuration === 'object' && 'service' in configuration && 'gid' in configuration) {
+        gid = configuration['gid']
+        service = configuration['service']
+        if (!(gid in global.distribution)) {
+            callback(new Error('gid not found'))
             return
         }
+        else if (!(service in global.distribution[gid])) {
+            callback(new Error('service not offered for the inputted gid'))
+            return
+        }
+
+        callback(null, global.distribution[gid][service])
+        return
     }
-    callback(new Error('Service not supported'))
+    callback(new Error('routes.get was given incorrect config arguement'))
 }
 
 /**

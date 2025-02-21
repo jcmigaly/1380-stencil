@@ -23,8 +23,16 @@ function send(message, remote, callback) {
     // Serialize the message
     let serializedMessage = serialize(message)
 
+    let gid = 'local'
+
+    if ('gid' in remote) {
+        gid = remote['gid']
+    }
+
     // Build path
-    let path = '/local/' + remote.service + '/' + remote.method
+    let path = '/' + gid + '/' + remote.service + '/' + remote.method
+    // let path = '/local/' + remote.service + '/' + remote.method
+
 
     // Set up options object for http.request
     let options = {
@@ -49,7 +57,7 @@ function send(message, remote, callback) {
         // Handle end of response
         res.on('end', () => {
             let trueData = deserialize(data)
-            if (trueData instanceof Error && trueData.message === 'Unsupported method') {
+            if (trueData instanceof Error && (trueData.message === 'Unsupported method' || trueData.message === 'gid not found')) {
                 callback(trueData)
                 return
             }
