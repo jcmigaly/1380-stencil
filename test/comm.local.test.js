@@ -73,16 +73,16 @@ test('(10 pts) comm: status.get() with invalid service', (done) => {
 
 /* Test infrastructure */
 
-let localServer = null;
+// let localServer = null;
 
-beforeAll((done) => {
-  distribution.node.start((server) => {
-    localServer = server;
-    done();
-  });
-});
+// beforeAll((done) => {
+//   distribution.node.start((server) => {
+//     localServer = server;
+//     done();
+//   });
+// });
 
-afterAll((done) => {
-  localServer.close();
-  done();
-});
+// afterAll((done) => {
+//   localServer.close();
+//   done();
+// });

@@ -29,9 +29,17 @@ function get(configuration, callback) {
                 callback(new Error(error))
                 return
             }
+        } 
+        else {
+            const rpc = global.toLocal[configuration];
+            if (rpc) {
+                callback(null, { call: rpc });
+                return
+            } else {
+                callback(new Error(`Service ${configuration} not found!`));
+                return
+            }
         }
-        callback(new Error('Service not supported'))
-        return
     } else if (typeof configuration === 'object' && 'service' in configuration && 'gid' in configuration) {
         gid = configuration['gid']
         service = configuration['service']
@@ -40,10 +48,19 @@ function get(configuration, callback) {
             return
         }
         else if (!(service in global.distribution[gid])) {
-            callback(new Error('service not offered for the inputted gid'))
-            return
-        }
+            const rpc = global.toLocal[gid][service];
+            if (rpc) {
+                callback(null, { call: rpc });
+                return
+            } else {
+                callback(new Error(`Service ${service} not found!`));
+                return
+            }
 
+            // callback(new Error('service not offered for the inputted gid'))
+            // return
+
+        }
         callback(null, global.distribution[gid][service])
         return
     }

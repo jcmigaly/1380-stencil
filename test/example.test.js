@@ -45,5 +45,5 @@ test('hello world', (done) => {
 
 // console.log(distribution.util.serialize(newNode))
 
-c='{"type":"object","value":{"ip":"{\"type\":\"string\",\"value\":\"127.0.0.1\"}","port":"{\"type\":\"number\",\"value\":\"8081\"}","onStart":"{\"type\":\"function\",\"value\":\"server => console.log(\\\"hi!\\\")\"}"}}'
+// c='{"type":"object","value":{"ip":"{\"type\":\"string\",\"value\":\"127.0.0.1\"}","port":"{\"type\":\"number\",\"value\":\"8081\"}","onStart":"{\"type\":\"function\",\"value\":\"server => console.log(\\\"hi!\\\")\"}"}}'
 // ./distribution.js --config "$c"
