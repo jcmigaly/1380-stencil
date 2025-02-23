@@ -4,6 +4,8 @@
 const http = require('http');
 const { serialize, deserialize } = require('../util/serialization');
 const { prototype } = require("events");
+// const send = require('@brown-ds/distribution/distribution/local/comm').send; 
+
 
 /**
  * @typedef {Object} Target
@@ -61,13 +63,16 @@ function send(message, remote, callback) {
                 callback(trueData)
                 return
             }
+            console.log(` true data   ${trueData}`)
+            console.log(trueData)
+
             callback(null, trueData)
         })
     })
     
     // Handle network errors
     req.on('error', (err) => {
-        console.log('ERROR', err)
+        // console.log('ERROR', err)
         callback(err)  // Pass the error to the callback
     })
 

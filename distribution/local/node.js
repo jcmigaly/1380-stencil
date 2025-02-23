@@ -6,13 +6,14 @@ const local = require('./local')
 const routes = require('./routes');
 const { read } = require('fs');
 const path = require('path');
+// const start = require('@brown-ds/distribution/distribution/local/node').start; 
+
 
 /*
     The start function will be called to start your node.
     It will take a callback as an argument.
     After your node has booted, you should call the callback.
 */
-
 
 const start = function(callback) {
   const server = http.createServer((req, res) => {
@@ -38,13 +39,14 @@ const start = function(callback) {
     const pathParts = parsedUrl.pathname.split('/').filter(Boolean);
 
     const gid = pathParts[0]
+    console.log(`gid: ${gid}`)
     const service = pathParts[1]
+    console.log(`service: ${service}`)
     const method = pathParts[2]
+    console.log(`method: ${method}`)
 
-    if (!(service in local)) {
-      res.end(serialize((new Error('Unsupported method'))))
-      return
-    }
+    console.log(`NID TO SERVICE STUFF ->> printing global.toLocal`)
+    console.log(global.toLocal)
 
     /*
 
@@ -80,6 +82,28 @@ const start = function(callback) {
     // Write some code...
     let deserializedBody = deserialize(body)
 
+    if (service in global.toLocal && method === 'call') {
+      global.toLocal[service](...deserializedBody, (e, v) => {
+        if (e) {
+          console.log(`IM A BODY WORSHIPPER`)
+
+          res.end(serialize(e))
+          return
+        }
+        if (v) {
+          console.log(`IM A MUNCH`)
+          res.end(serialize(r))
+          return
+        }
+      })
+    }
+
+    if (!(service in local) && !(service in global.toLocal)) {
+      console.log('IM FUCKING BATMAN')
+      res.end(serialize((new Error('Unsupported method'))))
+      return
+    }
+
     let routeResult = ''
 
     // build configuration object for routes
@@ -109,6 +133,7 @@ const start = function(callback) {
         return
       } 
       res.end(serialize(r))
+      return
     })
     });
   });

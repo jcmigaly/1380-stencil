@@ -82,6 +82,10 @@ beforeAll((done) => {
 
   remote.node = n1;
   distribution.local.comm.send([], remote, (e, v) => {
+    if (e) {
+      console.log(`this is the error`)
+      console.log(e)
+    }
     remote.node = n2;
     distribution.local.comm.send([], remote, (e, v) => {
       remote.node = n3;
@@ -99,6 +103,8 @@ beforeAll((done) => {
       });
     });
   });
+  console.log('1')
+
 
   const startNodes = () => {
     mygroupGroup[id.getSID(n1)] = n1;
@@ -106,6 +112,9 @@ beforeAll((done) => {
     mygroupGroup[id.getSID(n3)] = n3;
     mygroupGroup[id.getSID(n4)] = n4;
     mygroupGroup[id.getSID(n5)] = n5;
+
+    console.log('2')
+  
 
 
     const groupInstantiation = () => {
@@ -120,11 +129,20 @@ beforeAll((done) => {
     // Now, start the nodes listening node
     distribution.node.start((server) => {
       localServer = server;
+      console.log('BYEEE')
+
 
       // Start the nodes
       distribution.local.status.spawn(n1, (e, v) => {
-        console.log('HIHIHHIHIHI')
+        if (e) {
+          console.log(` this is spawn error `)
+          console.log(e)
+        }
+        if (v) {
+          console.log(` this is v`)
+          console.log(v)
 
+        }
         distribution.local.status.spawn(n2, (e, v) => {
           distribution.local.status.spawn(n3, (e, v) => {
             distribution.local.status.spawn(n4, (e, v) => {

@@ -48,7 +48,7 @@ function get(configuration, callback) {
             return
         }
         else if (!(service in global.distribution[gid])) {
-            const rpc = global.toLocal[gid][service];
+            const rpc = global.toLocal[service];
             if (rpc) {
                 callback(null, { call: rpc });
                 return
