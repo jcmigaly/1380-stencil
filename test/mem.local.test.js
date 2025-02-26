@@ -103,6 +103,7 @@ test('(1 pts) local.mem.put(no key)', (done) => {
   distribution.local.mem.put(user, null, (e, v) => {
     distribution.local.mem.get(id.getID(user), (e, v) => {
       try {
+        console.log(v)
         expect(e).toBeFalsy();
         expect(v).toBe(user);
         done();

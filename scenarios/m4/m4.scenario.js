@@ -108,23 +108,27 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
   mygroupGroup[id.getSID(distribution.node.config)] = distribution.node.config; // Adding the current node to the group
   // Add more nodes to the group...
 
+  mygroupGroup[id.getSID(n1)] = n1
+
   // Create a set of items and corresponding keys...
   const keysAndItems = [
     {key: 'a', item: {first: 'Josiah', last: 'Carberry'}},
+    {key: 'b', item: {first: 'Kyle', last: 'Dargie'}},2
   ];
 
   // Experiment with different hash functions...
-  const config = {gid: 'mygroup', hash: '?'};
+  const config = {gid: 'mygroup', hash: id.naiveHash};
 
   distribution.local.groups.put(config, mygroupGroup, (e, v) => {
     // Now, place each one of the items you made inside the group...
     distribution.mygroup.mem.put(keysAndItems[0].item, keysAndItems[0].key, (e, v) => {
+      distribution.mygroup.mem.put(keysAndItems[1].item, keysAndItems[1].key, (e, v) => {
         // We need to pass a copy of the group's
         // nodes before the changes to reconf()
         const groupCopy = {...mygroupGroup};
 
         // Remove a node from the group...
-        let toRemove = '?';
+        let toRemove = distribution.node.config;
         distribution.mygroup.groups.rem(
             'mygroup',
             id.getSID(toRemove),
@@ -135,6 +139,8 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
                 checkPlacement();
               });
             });
+
+      })
     });
   });
 
@@ -143,10 +149,11 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
   const checkPlacement = (e, v) => {
     const messages = [
       [{key: keysAndItems[0].key, gid: 'mygroup'}],
+      [{key: keysAndItems[1].key, gid: 'mygroup'}],
     ];
 
     // Based on where you think the items should be, send the messages to the right nodes...
-    const remote = {node: '?', service: 'mem', method: 'get'};
+    const remote = {node: n1, service: 'mem', method: 'get'};
     distribution.local.comm.send(messages[0], remote, (e, v) => {
       try {
         expect(e).toBeFalsy();
@@ -155,6 +162,16 @@ test('(5 pts) (scenario) use mem.reconf', (done) => {
         done(error);
         return;
       }
+      distribution.local.comm.send(messages[1], remote, (e, v) => {
+        try {
+          expect(e).toBeFalsy();
+          expect(v).toEqual(keysAndItems[1].item);
+          done()
+        } catch (error) {
+          done(error);
+          return;
+        }
+      })
 
       // Write checks for the rest of the items...
       done(); // Only call `done()` once all checks are written
