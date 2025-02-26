@@ -50,6 +50,9 @@ test('(1 pts) all.mem.put(jcarb)', (done) => {
 
   distribution.mygroup.mem.put(user, key, (e, v) => {
     try {
+      console.log(e)
+      console.log(v)
+
       expect(e).toBeFalsy();
       expect(v).toEqual(user);
       done();

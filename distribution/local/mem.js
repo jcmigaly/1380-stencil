@@ -37,6 +37,7 @@ function cleanConfig(configuration) {
 // state is the object we are trying to store
 // configuration is the key
 function put(state, configuration, callback) {
+    console.log('GETTiNG HERE')
     if (!callback) {
         callback = (e, v) => e ? console.error(`local.mem.put error: ${e}`) : console.log(`local.mem.put value: ${v}`)
     }
@@ -51,7 +52,7 @@ function put(state, configuration, callback) {
 
     // if we get this request from specific gid we map gid -> key -> name
     if (gid) {
-        namesToObjects[gid][key]
+        namesToObjects[gid][key] = state
         callback(null, namesToObjects[gid][key])
         return
     } else {
