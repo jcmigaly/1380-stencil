@@ -48,8 +48,8 @@ test('(5 pts) (scenario) hash functions return different nodes', () => {
     util.id.getNID({ip: '192.168.0.4', port: 8000}),
     util.id.getNID({ip: '192.168.0.5', port: 8000}),
   ];
-  let key1 = '?';
-  let key2 = '?';
+  let key1 = 'hh';
+  let key2 = 'hhh';
 
 
   const kid1 = util.id.getID(key1);
@@ -76,7 +76,7 @@ test('(5 pts) (scenario) hash functions return the same node', () => {
     util.id.getNID({ip: '192.168.0.4', port: 8000}),
   ];
 
-  let key = '?';
+  let key = 'lily';
 
   const kid = util.id.getID(key);
 
