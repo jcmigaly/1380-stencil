@@ -1,23 +1,25 @@
-const groups = function(config) {
-  const context = {};
-  context.gid = config.gid || 'all';
+const groups = require('@brown-ds/distribution/distribution/all/groups'); 
 
-  return {
-    put: (config, group, callback) => {
-    },
+// const groups = function(config) {
+//   const context = {};
+//   context.gid = config.gid || 'all';
 
-    del: (name, callback) => {
-    },
+//   return {
+//     put: (config, group, callback) => {
+//     },
 
-    get: (name, callback) => {
-    },
+//     del: (name, callback) => {
+//     },
 
-    add: (name, node, callback) => {
-    },
+//     get: (name, callback) => {
+//     },
 
-    rem: (name, node, callback) => {
-    },
-  };
-};
+//     add: (name, node, callback) => {
+//     },
+
+//     rem: (name, node, callback) => {
+//     },
+//   };
+// };
 
 module.exports = groups;

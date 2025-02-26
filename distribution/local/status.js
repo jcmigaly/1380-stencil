@@ -1,8 +1,10 @@
 const log = require('../util/log');
 
-const status = {};
-status.spawn = require('@brown-ds/distribution/distribution/local/status').spawn; 
-status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
+// const status = {};
+// status.spawn = require('@brown-ds/distribution/distribution/local/status').spawn; 
+// status.stop = require('@brown-ds/distribution/distribution/local/status').stop; 
+const status = require('@brown-ds/distribution/distribution/local/status'); 
+
 
 global.moreStatus = {
   sid: global.distribution.util.id.getSID(global.nodeConfig),

@@ -10,6 +10,15 @@ test('(5 pts) (scenario) use the local store', (done) => {
   const user = {first: 'Josiah', last: 'Carberry'};
   const key = 'jcarbspsg';
 
+  distribution.local.store.put(user, key, (e, v) => {
+    if (e) {
+      console.error(e)
+    } else {
+      console.log(v)
+    }
+  })
+
+  check()
 
   function check() {
     distribution.local.store.get(key, (e, v) => {

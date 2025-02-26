@@ -1,26 +1,28 @@
 /** @typedef {import("../types").Callback} Callback */
 
-function routes(config) {
-  const context = {};
-  context.gid = config.gid || 'all';
+// const routes = require('@brown-ds/distribution/distribution/all/routes'); 
 
-  /**
-   * @param {object} service
-   * @param {string} name
-   * @param {Callback} callback
-   */
-  function put(service, name, callback = () => { }) {
-  }
+// function routes(config) {
+//   const context = {};
+//   context.gid = config.gid || 'all';
 
-  /**
-   * @param {object} service
-   * @param {string} name
-   * @param {Callback} callback
-   */
-  function rem(service, name, callback = () => { }) {
-  }
+//   /**
+//    * @param {object} service
+//    * @param {string} name
+//    * @param {Callback} callback
+//    */
+//   function put(service, name, callback = () => { }) {
+//   }
 
-  return {put, rem};
-}
+//   /**
+//    * @param {object} service
+//    * @param {string} name
+//    * @param {Callback} callback
+//    */
+//   function rem(service, name, callback = () => { }) {
+//   }
 
-module.exports = routes;
+//   return {put, rem};
+// }
+
+module.exports = require('@brown-ds/distribution/distribution/all/routes');

@@ -121,7 +121,7 @@ test('(2 pts) (scenario) collect errors and successful results', (done) => {
 
 test('(5 pts) (scenario) use rpc', (done) => {
 
-  fail('Purposefully failing the test because port already in use');
+  // fail('Purposefully failing the test because port already in use');
 
   let n = 0;
   const addOne = () => {
