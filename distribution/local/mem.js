@@ -109,12 +109,6 @@ function del(configuration, callback) {
         return callback(error)
     }
 
-    // key not in our mem
-    // if (!(configuration in namesToObjects)) {
-    //     callback(new Error('local.mem.del: Key not in mem'))
-    //     return
-    // }
-
     // let deepClone
     let queryObject
     if (gid) {
@@ -123,7 +117,7 @@ function del(configuration, callback) {
             return
         }
         // deepClone = util.deserialize(util.serialize(namesToObjects[gid][key]))
-        queryObject = namesToObjects[configuration]
+        queryObject = namesToObjects[gid][key]
         delete namesToObjects[gid][key]
         callback(null, queryObject)
         return
@@ -134,7 +128,7 @@ function del(configuration, callback) {
             return
         }
         // deepClone = util.deserialize(util.serialize(namesToObjects[key]))
-        queryObject = namesToObjects[configuration]
+        queryObject = namesToObjects[key]
         delete namesToObjects[key]
         callback(null, queryObject)
         return

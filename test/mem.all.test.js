@@ -81,20 +81,8 @@ test('(1 pts) all.mem.put/del(jcarb)', (done) => {
   const key = 'jcarbmpd';
 
   distribution.mygroup.mem.put(user, key, (e, v) => {
-    console.log(` e -> ${e}`)
-    console.log(` v -> ${v}`)
-    console.log(v)
-
-
     distribution.mygroup.mem.del(key, (e, v) => {
       try {
-        console.log(`e`)
-        console.log(e)
-        console.log(`v`)
-        console.log(v)
-
-
-
         expect(e).toBeFalsy();
         expect(v).toEqual(user);
         done();
