@@ -52,6 +52,9 @@ function put(state, configuration, callback) {
 
     // if we get this request from specific gid we map gid -> key -> name
     if (gid) {
+        if (!(gid in namesToObjects)) {
+            namesToObjects[gid] = {}
+        } 
         namesToObjects[gid][key] = state
         callback(null, namesToObjects[gid][key])
         return
@@ -107,10 +110,10 @@ function del(configuration, callback) {
     }
 
     // key not in our mem
-    if (!(configuration in namesToObjects)) {
-        callback(new Error('local.mem.del: Key not in mem'))
-        return
-    }
+    // if (!(configuration in namesToObjects)) {
+    //     callback(new Error('local.mem.del: Key not in mem'))
+    //     return
+    // }
 
     // let deepClone
     let queryObject
