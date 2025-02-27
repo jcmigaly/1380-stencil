@@ -17,20 +17,71 @@ function sanitizeKey(key) {
   return sanitized.length > 0 ? sanitized : null;
 }
 
+function cleanPutConfig(state, configuration) {
+  let key, gid, node
+  if (typeof configuration === 'string') {
+    key = sanitizeKey(configuration) || util.id.getID(state)
+  } else if (typeof configuration === 'object' && configuration !== null) {
+    ({key, gid, node} = configuration)
+    key = sanitizeKey(key) || util.id.getID(state)
+  } else if (!configuration) {
+    key = util.id.getID(state)
+  } else {
+    throw new Error('local.store.put: Incorrect configuration')
+  }
+  return { key, gid, node }
+}
+
+function cleanConfig(configuration) {
+  let key, gid, node
+  if (typeof configuration === 'string') {
+    key = sanitizeKey(configuration)
+  } else if (typeof configuration === 'object' && configuration !== null) {
+    ({key, gid, node} = configuration)
+    key = sanitizeKey(key) || util.id.getID(state)
+  } else {
+    throw new Error('local.store.get: Incorrect configuration')
+  }
+  return { key, gid, node }
+}
+
 // state is the object we are trying to store
 // configuration is the key
 function put(state, configuration, callback) {
   if (!callback) {
     callback = (e, v) => e ? console.error(`local.store.put error: ${e}`) : console.log(`local.store.put value: ${v}`)
   }
-  // clean up configuration
-  const safeKey = sanitizeKey(configuration) || util.id.getID(state);
+  // clean up configuration and isolate key, gid, node
+  let key, gid, node;
+  try {
+      ({ key, gid, node } = cleanPutConfig(state, configuration))
+  } catch (error) {
+      return callback(error)
+  }
+  const subDirs = []
 
-  // navigate to correct directry
-  const filePath = path.join(STORE_DIR, safeKey + ".json")
+  if (gid) {
+    subDirs.push(gid)
+  } 
+  if (node) {
+    subDirs.push(node)
+  }
+
+  // Construct full directory path
+  const fullDirPath = path.join(STORE_DIR, ...subDirs)
+  try {
+     // Ensure directories exist
+     fs.mkdirSync(fullDirPath, { recursive: true })
+  } catch (error) {
+    callback(new Error('local.store.put fs.mkdirSync error'))
+  }
+
+  // Define file path
+  const filePath = path.join(fullDirPath, key + ".json");
+    
   fs.writeFile(filePath, util.serialize(state), (err) => {
     callback(err, state);
-});
+  })
 }
 
 function get(configuration, callback) {
@@ -38,13 +89,25 @@ function get(configuration, callback) {
     callback = (e, v) => e ? console.error(`local.store.get error: ${e}`) : console.log(`local.store.get value: ${v}`)
   }
 
-  const safeKey = sanitizeKey(configuration)
-
-  if (!safeKey) {
-    callback(new Error("local.store.get: Invalid key"))
-    return 
+  let key, gid, node;
+  try {
+      ({ key, gid, node } = cleanConfig( configuration))
+  } catch (error) {
+      return callback(error)
   }
-  const filePath = path.join(STORE_DIR, safeKey + ".json")
+  const subDirs = []
+
+  if (gid) {
+    subDirs.push(gid)
+  } 
+  if (node) {
+    subDirs.push(node)
+  }
+
+  // Construct full directory path
+  const fullDirPath = path.join(STORE_DIR, ...subDirs)
+
+  const filePath = path.join(fullDirPath, key + ".json")
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
@@ -61,13 +124,25 @@ function del(configuration, callback) {
     callback = (e, v) => e ? console.error(`local.store.del error: ${e}`) : console.log(`local.store.del value: ${v}`)
   }
   
-  const safeKey = sanitizeKey(configuration)
-
-  if (!safeKey) {
-    callback(new Error("local.store.del: Invalid key"))
-    return 
+  let key, gid, node;
+  try {
+      ({ key, gid, node } = cleanConfig( configuration))
+  } catch (error) {
+      return callback(error)
   }
-  const filePath = path.join(STORE_DIR, safeKey + ".json")
+  const subDirs = []
+
+  if (gid) {
+    subDirs.push(gid)
+  } 
+  if (node) {
+    subDirs.push(node)
+  }
+
+   // Construct full directory path
+   const fullDirPath = path.join(STORE_DIR, ...subDirs)
+
+   const filePath = path.join(fullDirPath, key + ".json")
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {

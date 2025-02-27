@@ -49,6 +49,9 @@ test('(1 pts) all.store.put(jcarb)', (done) => {
   const key = 'jcarbmp';
 
   distribution.mygroup.store.put(user, key, (e, v) => {
+    console.log(e)
+    console.log(v)
+
     try {
       expect(e).toBeFalsy();
       expect(v).toEqual(user);
@@ -65,6 +68,8 @@ test('(1 pts) all.store.put/get(jcarb)', (done) => {
 
   distribution.mygroup.store.put(user, key, (e, v) => {
     distribution.mygroup.store.get(key, (e, v) => {
+      console.log(e)
+      console.log(v)
       try {
         expect(e).toBeFalsy();
         expect(v).toEqual(user);
