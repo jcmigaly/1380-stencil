@@ -130,3 +130,34 @@ Imagine you have two friends, Max and Tommy. Max knows how to do math, like addi
 Now, whenever Tommy needs 2 + 2, he doesn’t try to figure it out himself. Instead, he writes a note, gives it to a messenger, and Max sends back the answer. Tommy doesn’t need to know how Max does the math—he just trusts that Max will get it right.
 
 That’s basically how createRPC works. One part of a program (Tommy) asks another part (Max) to do something remotely. Instead of passing paper notes, they send messages over a network.
+
+
+# M4: Distributed Storage
+
+
+## Summary
+
+> Summarize your implementation, including key challenges you encountered
+
+For M4, I implemented a distributed storage system that enables storing and retrieving objects across a group of nodes using primary keys. The solution ensures that any node in the system can invoke these operations with consistent behavior. Key challenges I encountered were with store.all.test, as I didn't realize I had to implement hashes to get them going. Weirdly enough I believe there is something wrong with the testing code because I was passing test 2-8 without implementing them, and made sure I wasn't overriding global with any bad distribution imports.
+
+
+Remember to update the `report` section of the `package.json` file with the total number of hours it took you to complete each task of M4 (`hours`) and the lines of code per task.
+
+
+## Correctness & Performance Characterization
+
+> Describe how you characterized the correctness and performance of your implementation
+
+
+*Correctness* -- 9 tests that take 1.4 seconds total
+
+
+*Performance* -- I wasn't able to get AWS nodes up and running in time.
+
+
+## Key Feature
+
+> Why is the `reconf` method designed to first identify all the keys to be relocated and then relocate individual objects instead of fetching all the objects immediately and then pushing them to their corresponding locations?
+
+The reconf method first identifies the keys to be relocated before moving individual objects to avoid unnecessary data transfers and ensure consistency. This approach reduces inefficiencies by preventing the transfer of unaffected objects and allows for better load balancing across nodes. It also improves fault tolerance, as a precomputed list of keys helps resume the process in case of failure, ensuring a more reliable and efficient relocation process.

@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 const util = require("../util/util");
-const put = require('@brown-ds/distribution/distribution/local/store').put; 
-const get = require('@brown-ds/distribution/distribution/local/store').get; 
-const del = require('@brown-ds/distribution/distribution/local/store').del; 
+// const put = require('@brown-ds/distribution/distribution/local/store').put; 
+// const get = require('@brown-ds/distribution/distribution/local/store').get; 
+// const del = require('@brown-ds/distribution/distribution/local/store').del; 
 
 
 /* Notes/Tips:
@@ -51,117 +51,117 @@ function cleanConfig(configuration) {
 
 // state is the object we are trying to store
 // configuration is the key
-// function put(state, configuration, callback) {
-//   if (!callback) {
-//     callback = (e, v) => e ? console.error(`local.store.put error: ${e}`) : console.log(`local.store.put value: ${v}`)
-//   }
-//   // clean up configuration and isolate key, gid, node
-//   let key, gid, node;
-//   try {
-//       ({ key, gid, node } = cleanPutConfig(state, configuration))
-//   } catch (error) {
-//       return callback(error)
-//   }
-//   const subDirs = []
+function put(state, configuration, callback) {
+  if (!callback) {
+    callback = (e, v) => e ? console.error(`local.store.put error: ${e}`) : console.log(`local.store.put value: ${v}`)
+  }
+  // clean up configuration and isolate key, gid, node
+  let key, gid, node;
+  try {
+      ({ key, gid, node } = cleanPutConfig(state, configuration))
+  } catch (error) {
+      return callback(error)
+  }
+  const subDirs = []
 
-//   if (gid) {
-//     subDirs.push(gid)
-//   } 
-//   if (node) {
-//     subDirs.push(node)
-//   }
+  if (gid) {
+    subDirs.push(gid)
+  } 
+  if (node) {
+    subDirs.push(node)
+  }
 
-//   // Construct full directory path
-//   const fullDirPath = path.join(STORE_DIR, ...subDirs)
-//   try {
-//      // Ensure directories exist
-//      fs.mkdirSync(fullDirPath, { recursive: true })
-//   } catch (error) {
-//     callback(new Error('local.store.put fs.mkdirSync error'))
-//   }
+  // Construct full directory path
+  const fullDirPath = path.join(STORE_DIR, ...subDirs)
+  try {
+     // Ensure directories exist
+     fs.mkdirSync(fullDirPath, { recursive: true })
+  } catch (error) {
+    callback(new Error('local.store.put fs.mkdirSync error'))
+  }
 
-//   // Define file path
-//   const filePath = path.join(fullDirPath, key + ".json");
+  // Define file path
+  const filePath = path.join(fullDirPath, key + ".json");
     
-//   fs.writeFile(filePath, util.serialize(state), (err) => {
-//     callback(err, state);
-//   })
-// }
+  fs.writeFile(filePath, util.serialize(state), (err) => {
+    callback(err, state);
+  })
+}
 
-// function get(configuration, callback) {
-//   if (!callback) {
-//     callback = (e, v) => e ? console.error(`local.store.get error: ${e}`) : console.log(`local.store.get value: ${v}`)
-//   }
+function get(configuration, callback) {
+  if (!callback) {
+    callback = (e, v) => e ? console.error(`local.store.get error: ${e}`) : console.log(`local.store.get value: ${v}`)
+  }
 
-//   let key, gid, node;
-//   try {
-//       ({ key, gid, node } = cleanConfig( configuration))
-//   } catch (error) {
-//       return callback(error)
-//   }
-//   const subDirs = []
+  let key, gid, node;
+  try {
+      ({ key, gid, node } = cleanConfig( configuration))
+  } catch (error) {
+      return callback(error)
+  }
+  const subDirs = []
 
-//   if (gid) {
-//     subDirs.push(gid)
-//   } 
-//   if (node) {
-//     subDirs.push(node)
-//   }
+  if (gid) {
+    subDirs.push(gid)
+  } 
+  if (node) {
+    subDirs.push(node)
+  }
 
-//   // Construct full directory path
-//   const fullDirPath = path.join(STORE_DIR, ...subDirs)
+  // Construct full directory path
+  const fullDirPath = path.join(STORE_DIR, ...subDirs)
 
-//   const filePath = path.join(fullDirPath, key + ".json")
+  const filePath = path.join(fullDirPath, key + ".json")
 
-//   fs.readFile(filePath, "utf8", (err, data) => {
-//     if (err) {
-//       callback(new Error('local.store.get: Key not in memory'))
-//       return
-//     }
-//     const parsedData = util.deserialize(data)
-//     callback(null, parsedData)
-//   })
-// }
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      callback(new Error('local.store.get: Key not in memory'))
+      return
+    }
+    const parsedData = util.deserialize(data)
+    callback(null, parsedData)
+  })
+}
 
-// function del(configuration, callback) {
-//   if (!callback) {
-//     callback = (e, v) => e ? console.error(`local.store.del error: ${e}`) : console.log(`local.store.del value: ${v}`)
-//   }
+function del(configuration, callback) {
+  if (!callback) {
+    callback = (e, v) => e ? console.error(`local.store.del error: ${e}`) : console.log(`local.store.del value: ${v}`)
+  }
   
-//   let key, gid, node;
-//   try {
-//       ({ key, gid, node } = cleanConfig( configuration))
-//   } catch (error) {
-//       return callback(error)
-//   }
-//   const subDirs = []
+  let key, gid, node;
+  try {
+      ({ key, gid, node } = cleanConfig( configuration))
+  } catch (error) {
+      return callback(error)
+  }
+  const subDirs = []
 
-//   if (gid) {
-//     subDirs.push(gid)
-//   } 
-//   if (node) {
-//     subDirs.push(node)
-//   }
+  if (gid) {
+    subDirs.push(gid)
+  } 
+  if (node) {
+    subDirs.push(node)
+  }
 
-//    // Construct full directory path
-//    const fullDirPath = path.join(STORE_DIR, ...subDirs)
+   // Construct full directory path
+   const fullDirPath = path.join(STORE_DIR, ...subDirs)
 
-//    const filePath = path.join(fullDirPath, key + ".json")
+   const filePath = path.join(fullDirPath, key + ".json")
 
-//   fs.readFile(filePath, "utf8", (err, data) => {
-//     if (err) {
-//       callback(new Error('local.store.get: Key not in memory'))
-//       return
-//     }
-//     const parsedData = util.deserialize(data)
-//     fs.unlink(filePath, (e) => {
-//       if (e) {
-//         callback(new Error('local.store.del: file could not be deleted'))
-//         return
-//       }
-//       callback(null, parsedData)
-//     })
-//   })
-// }
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      callback(new Error('local.store.get: Key not in memory'))
+      return
+    }
+    const parsedData = util.deserialize(data)
+    fs.unlink(filePath, (e) => {
+      if (e) {
+        callback(new Error('local.store.del: file could not be deleted'))
+        return
+      }
+      callback(null, parsedData)
+    })
+  })
+}
 
 module.exports = {put, get, del};

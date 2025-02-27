@@ -132,4 +132,4 @@ function store(config) {
   };
 };
 
-module.exports = require('@brown-ds/distribution/distribution/all/store');;
+module.exports = store;

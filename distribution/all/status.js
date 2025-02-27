@@ -15,4 +15,4 @@ const status = function(config) {
   };
 };
 
-module.exports = require('@brown-ds/distribution/distribution/all/status');
+module.exports = status;
