@@ -7,30 +7,89 @@
 */
 
 const distribution = require('../../config.js');
+const id = distribution.util.id;
+
 
 test('(1 pts) student test', (done) => {
-  // Fill out this test case...
-  done(new Error('Not implemented'));
+  const user = {first: 'Lily', last: 'Reynolds'};
+  const key = 'lily+jc';
+
+  distribution.local.store.put(user, key, (e, v) => {
+    distribution.local.store.del(key, (e, v) => {
+      distribution.local.store.get(key, (e, v) => {
+        try {
+          expect(e).toBeInstanceOf(Error);
+          expect(v).toBeFalsy();
+          done();
+        } catch (error) {
+          done(error);
+        }
+      })
+    })
+  })
 });
 
 
 test('(1 pts) student test', (done) => {
-  // Fill out this test case...
-  done(new Error('Not implemented'));
+  const key = 'jc+lily';
+
+  distribution.local.mem.del(key, (e, v) => {
+    try {
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
+    } catch (error) {
+      done(error);
+    }
+  })
 });
 
 
 test('(1 pts) student test', (done) => {
-  // Fill out this test case...
-  done(new Error('Not implemented'));
+  const user = {first: 'Lily', last: 'Reynolds'};
+  const key = 'jc+lily';
+
+  distribution.local.mem.put(user, key, (e, v) => {
+    distribution.local.mem.del(key, (e, v) => {
+      distribution.local.mem.get(key, (e, v) => {
+        try {
+          expect(e).toBeInstanceOf(Error);
+          expect(v).toBeFalsy();
+          done();
+        } catch (error) {
+          done(error);
+        }
+      })
+    })
+  })
 });
 
 test('(1 pts) student test', (done) => {
-  // Fill out this test case...
-  done(new Error('Not implemented'));
+  const user = {first: 'Lily', last: 'Reynolds'};
+
+  distribution.local.mem.put(user, null, (e, v) => {
+    distribution.local.mem.get(id.getID(user), (e, v) => {
+      try {
+        expect(e).toBeFalsy();
+        expect(v).toBe(user);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    })
+  })
 });
 
 test('(1 pts) student test', (done) => {
-  // Fill out this test case...
-  done(new Error('Not implemented'));
+  const key = 'lily+jc';
+
+  distribution.local.mem.del(key, (e, v) => {
+    try {
+      expect(e).toBeInstanceOf(Error);
+      expect(v).toBeFalsy();
+      done();
+    } catch (error) {
+      done(error);
+    }
+  })
 });

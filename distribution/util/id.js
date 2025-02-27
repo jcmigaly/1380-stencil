@@ -55,10 +55,47 @@ function naiveHash(kid, nids) {
 }
 
 function consistentHash(kid, nids) {
+  if (nids.length === 0) {
+    throw new Error("NIDs list cannot be empty")
+  }
+
+  const kidNum = idToNum(kid);
+  const numList = nids.map(idToNum)
+
+  const sortedNums = [...numList].sort((a, b) => a - b)
+
+  for (let num of sortedNums) {
+      if (num > kidNum) {
+          return nids[numList.indexOf(num)] 
+      }
+  }
+
+  return nids[numList.indexOf(sortedNums[0])]
 }
 
 
 function rendezvousHash(kid, nids) {
+  if (nids.length === 0) {
+    throw new Error("NIDs list cannot be empty");
+  }
+
+  let maxHashValue = -1;
+  let selectedNID = null;
+
+  for (let nid of nids) {
+      const combined = kid + nid;
+
+      const hash = getID(combined)
+
+      const hashNum = idToNum(hash)
+
+      if (hashNum > maxHashValue) {
+          maxHashValue = hashNum
+          selectedNID = nid
+      }
+  }
+
+  return selectedNID
 }
 
 module.exports = {
